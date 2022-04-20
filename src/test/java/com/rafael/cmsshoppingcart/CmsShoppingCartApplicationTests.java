@@ -1,10 +1,10 @@
-package com.rafael.csmshoppingcart;
+package com.rafael.cmsshoppingcart;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CsmshoppingcartApplicationTests {
+class CmsShoppingCartApplicationTests {
 
 	@Test
 	void contextLoads() {
