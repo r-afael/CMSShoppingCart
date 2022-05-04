@@ -1,5 +1,7 @@
 package com.rafael.cmsshoppingcart.model.data;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PageRepository extends JpaRepository<Page, Integer> {
@@ -10,4 +12,6 @@ public interface PageRepository extends JpaRepository<Page, Integer> {
     //Page findBySlug(int id, String slug);
 
     Page findBySlugAndIdNot(String slug, int id);
+
+    List<Page> findAllByOrderBySortingAsc();
 }
