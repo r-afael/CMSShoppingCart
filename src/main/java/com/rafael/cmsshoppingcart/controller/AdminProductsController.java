@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -47,7 +48,7 @@ public class AdminProductsController {
 
         model.addAttribute("products", products);
         model.addAttribute("cats", cats);
-        
+
         return "admin/products/index";
     }
 
@@ -62,13 +63,13 @@ public class AdminProductsController {
 
     @PostMapping("/add")
     public String add(@Valid Product product,
-                        BindingResult bindingResult,
-                        MultipartFile file,
-                        RedirectAttributes redirectAttributes,
-                        Model model) throws IOException {
+            BindingResult bindingResult,
+            MultipartFile file,
+            RedirectAttributes redirectAttributes,
+            Model model) throws IOException {
 
         List<Category> categories = categoryRepo.findAll();
-                            
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("categories", categories);
             return "admin/products/add";
@@ -79,7 +80,7 @@ public class AdminProductsController {
         String filename = file.getOriginalFilename();
         Path path = Paths.get("src/main/resources/static/media/" + filename);
 
-        if(filename.endsWith("jpg") || filename.endsWith("png")){
+        if (filename.endsWith("jpg") || filename.endsWith("png")) {
             fileOk = true;
         }
 
@@ -94,8 +95,7 @@ public class AdminProductsController {
             redirectAttributes.addFlashAttribute("message", "Image must be a jpg or a png");
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
             redirectAttributes.addFlashAttribute("product", product);
-        }
-        else if (productExists != null) {
+        } else if (productExists != null) {
             redirectAttributes.addFlashAttribute("message", "Product exists, choose another");
             redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
             redirectAttributes.addFlashAttribute("product", product);
@@ -109,4 +109,81 @@ public class AdminProductsController {
 
         return "redirect:/admin/products/add";
     }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable int id, Model model) {
+
+        Product product = productRepo.getById(id);
+        List<Category> categories = categoryRepo.findAll();
+
+        model.addAttribute("product", product);
+        model.addAttribute("categories", categories);
+
+        return "admin/products/edit";
+    }
+
+    @PostMapping("/edit")
+    public String edit(@Valid Product product,
+            BindingResult bindingResult,
+            MultipartFile file,
+            RedirectAttributes redirectAttributes,
+            Model model) throws IOException {
+
+        Product currentProduct = productRepo.getById(product.getId());
+
+        List<Category> categories = categoryRepo.findAll();
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("productName", currentProduct.getName());
+            model.addAttribute("categories", categories);
+            return "admin/products/edit";
+        }
+
+        boolean fileOk = false;
+        byte[] bytes = file.getBytes();
+        String filename = file.getOriginalFilename();
+        Path path = Paths.get("src/main/resources/static/media/" + filename);
+
+        if (!file.isEmpty()) {
+            if (filename.endsWith("jpg") || filename.endsWith("png")) {
+                fileOk = true;
+            }
+        } else {
+            fileOk = true;
+        }
+
+        redirectAttributes.addFlashAttribute("message", "Product edited");
+        redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+
+        String slug = product.getName().toLowerCase().replace(" ", "-");
+
+        Product productExists = productRepo.findBySlugAndIdNot(slug, product.getId());
+
+        if (!fileOk) {
+            redirectAttributes.addFlashAttribute("message", "Image must be a jpg or a png");
+            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+            redirectAttributes.addFlashAttribute("product", product);
+        } else if (productExists != null) {
+            redirectAttributes.addFlashAttribute("message", "Product exists, choose another");
+            redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+            redirectAttributes.addFlashAttribute("product", product);
+        } else {
+
+            product.setSlug(slug);
+
+            if (!file.isEmpty()) {
+                Path path2 = Paths.get("src/main/resources/static/media/" + currentProduct.getImage());
+                Files.delete(path2);
+                product.setImage(filename);
+                Files.write(path, bytes);
+            } else {
+                product.setImage(currentProduct.getImage());
+            }
+            productRepo.save(product);
+            
+        }
+
+        return "redirect:/admin/products/edit/" + product.getId();
+    }
+
 }
