@@ -77,7 +77,7 @@ public class AdminProductsController {
 
         boolean fileOk = false;
         byte[] bytes = file.getBytes();
-        String filename = file.getOriginalFilename();
+        String filename = file.getOriginalFilename().replace(" ", "-");
         Path path = Paths.get("src/main/resources/static/media/" + filename);
 
         if (filename.endsWith("jpg") || filename.endsWith("png")) {
@@ -141,7 +141,7 @@ public class AdminProductsController {
 
         boolean fileOk = false;
         byte[] bytes = file.getBytes();
-        String filename = file.getOriginalFilename();
+        String filename = file.getOriginalFilename().replace(" ", "-");
         Path path = Paths.get("src/main/resources/static/media/" + filename);
 
         if (!file.isEmpty()) {
