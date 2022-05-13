@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import com.rafael.cmsshoppingcart.model.PageRepository;
 import com.rafael.cmsshoppingcart.model.data.Page;
-import com.rafael.cmsshoppingcart.model.data.PageRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

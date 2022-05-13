@@ -2,10 +2,10 @@ package com.rafael.cmsshoppingcart.controller;
 
 import java.util.List;
 
+import com.rafael.cmsshoppingcart.model.CategoryRepository;
+import com.rafael.cmsshoppingcart.model.ProductRepository;
 import com.rafael.cmsshoppingcart.model.data.Category;
-import com.rafael.cmsshoppingcart.model.data.CategoryRepository;
 import com.rafael.cmsshoppingcart.model.data.Product;
-import com.rafael.cmsshoppingcart.model.data.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

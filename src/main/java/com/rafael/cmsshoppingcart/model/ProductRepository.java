@@ -1,6 +1,8 @@
-package com.rafael.cmsshoppingcart.model.data;
+package com.rafael.cmsshoppingcart.model;
 
 import java.util.List;
+
+import com.rafael.cmsshoppingcart.model.data.Product;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
