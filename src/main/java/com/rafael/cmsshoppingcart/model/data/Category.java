@@ -2,11 +2,10 @@ package com.rafael.cmsshoppingcart.model.data;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
-
-import org.hibernate.annotations.GenericGenerator;
 
 import lombok.Data;
 
@@ -16,8 +15,7 @@ import lombok.Data;
 public class Category {
     
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Size(min=2, message = "Name must be at least 2 characters long")

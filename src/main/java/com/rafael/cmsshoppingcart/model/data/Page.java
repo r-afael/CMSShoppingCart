@@ -7,8 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import lombok.Data;
 
 @Entity
@@ -17,8 +15,7 @@ import lombok.Data;
 public class Page {
     
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
     @Size(min=2, message = "Title must be at least 2 characters long")
