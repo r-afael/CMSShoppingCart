@@ -7,9 +7,16 @@ A personal CMS project to practice and showcase my knowledge in Spring Boot.
 
 ## Tech Stack
 
-**Client:** Javascript, jQuery, jQuery UI, CKEditor
+**Client:** Javascript, jQuery, jQuery UI, Bootstrap, CKEditor
 
 **Server:** Java, Spring Boot, Thymeleaf, Maven, Lombok, MySQL
+
+## Features
+
+- Add, remove, sort and edit pages, products and categories (Admin section) 
+- Shopping Cart
+- Integration with PayPal API
+- User registration and authentication 
 
 ## Screenshots
 
