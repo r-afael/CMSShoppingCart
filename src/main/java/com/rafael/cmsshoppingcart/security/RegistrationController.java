@@ -42,7 +42,6 @@ public class RegistrationController {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        System.out.println("Trying to Save password!!!!!!!!!!!!!!!!!!!!");
         userRepo.save(user);
 
         return "redirect:/login";
